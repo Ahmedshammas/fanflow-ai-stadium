@@ -110,15 +110,16 @@ def render_dashboard() -> str:
             theme: {{
                 extend: {{
                     colors: {{
-                        ink: '#050816',
-                        slateglass: '#111827',
-                        neon: '#2dd4bf',
-                        signal: '#f59e0b',
-                        danger: '#ef4444',
-                        calm: '#38bdf8'
+                        ink: '#020617',
+                        panel: '#0f172a',
+                        panelStrong: '#111827',
+                        neon: '#34d399',
+                        signal: '#fbbf24',
+                        danger: '#f87171',
+                        calm: '#7dd3fc'
                     }},
                     boxShadow: {{
-                        glow: '0 0 0 1px rgba(45,212,191,0.2), 0 18px 60px rgba(0,0,0,0.45)'
+                        glow: '0 0 0 1px rgba(255,255,255,0.10), 0 18px 60px rgba(0,0,0,0.55)'
                     }},
                     animation: {{
                         floaty: 'floaty 10s ease-in-out infinite'
@@ -153,221 +154,233 @@ def render_dashboard() -> str:
     <div class="fixed inset-0 grid-overlay opacity-40 pointer-events-none"></div>
     <main class="relative mx-auto max-w-7xl px-4 py-8 lg:px-8">
         <section class="mb-8 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-glow backdrop-blur-xl">
-            <div class="grid gap-8 p-6 lg:grid-cols-[1.4fr_1fr] lg:p-8">
-                <div>
-                    <div class="inline-flex items-center gap-2 rounded-full border border-neon/30 bg-neon/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-neon">
-                        FanFlow AI Command Center
+                radial-gradient(circle at top left, rgba(52, 211, 153, 0.15), transparent 28%),
+                radial-gradient(circle at top right, rgba(125, 211, 252, 0.12), transparent 22%),
+                linear-gradient(180deg, #020617 0%, #030712 45%, #0f172a 100%);
+            color: #f8fafc;
                     </div>
                     <h1 class="mt-4 text-4xl font-black tracking-tight text-white md:text-6xl">FanFlow AI - Tournament Operations Command Center</h1>
                     <p class="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-                        Live tournament visibility for gate flow, concession demand, and incident response. This dashboard is wired directly to the same stadium intelligence that powers the FastAPI endpoints.
-                    </p>
+                linear-gradient(rgba(226, 232, 240, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(226, 232, 240, 0.08) 1px, transparent 1px);
                     <div class="mt-6 flex flex-wrap gap-3 text-sm text-slate-300">
                         <span class="rounded-full border border-white/10 bg-slateglass px-4 py-2">Model: {model_label}</span>
                         <span class="rounded-full border border-white/10 bg-slateglass px-4 py-2">Alert level: <span class="font-semibold text-white">{alert_level}</span></span>
                         <span class="rounded-full border border-white/10 bg-slateglass px-4 py-2">Updated: {alert_updated}</span>
-                    </div>
+<body class="min-h-screen bg-ink text-slate-50">
                 </div>
-                <div class="relative rounded-3xl border border-white/10 bg-slate-950/70 p-5 shadow-2xl animate-floaty">
-                    <div class="mb-4 flex items-center justify-between">
+    <header class="relative mx-auto max-w-7xl px-4 pt-6 lg:px-8" role="banner">
+        <div class="rounded-3xl border border-slate-200/20 bg-slate-950/90 px-5 py-4 shadow-glow backdrop-blur-xl">
+            <p class="text-sm font-semibold text-emerald-300">Accessible live operations dashboard</p>
+            <p class="mt-1 text-sm text-slate-300">FastAPI routes remain unchanged: /api/fan/chat and /api/ops/incident.</p>
+        </div>
+    </header>
+    <main id="main-content" class="relative mx-auto max-w-7xl px-4 py-8 lg:px-8" aria-label="FanFlow AI command center content">
+        <section class="mb-8 overflow-hidden rounded-3xl border border-slate-200/20 bg-slate-950/90 shadow-glow backdrop-blur-xl" aria-labelledby="overview-title">
                         <div>
                             <p class="text-xs uppercase tracking-[0.35em] text-calm/80">Stadium pulse</p>
-                            <p class="mt-1 text-2xl font-bold text-white">Operations snapshot</p>
+                    <div class="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-200">
                         </div>
                         <div class="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-right">
-                            <p class="text-[11px] uppercase tracking-[0.3em] text-slate-400">Status</p>
-                            <p class="text-sm font-semibold text-white">{alert_level}</p>
+                    <h1 id="overview-title" class="mt-4 text-4xl font-black tracking-tight text-white md:text-6xl">FanFlow AI - Tournament Operations Command Center</h1>
+                    <p class="mt-4 max-w-3xl text-base leading-7 text-slate-200 md:text-lg">
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Active gates</p>
-                            <p class="mt-2 text-3xl font-black text-white">{context['total_gates']}</p>
+                    <div class="mt-6 flex flex-wrap gap-3 text-sm text-slate-200">
+                        <span class="rounded-full border border-slate-200/20 bg-slate-900 px-4 py-2">Model: {model_label}</span>
+                        <span class="rounded-full border border-slate-200/20 bg-slate-900 px-4 py-2">Alert level: <span class="font-semibold text-white">{alert_level}</span></span>
+                        <span class="rounded-full border border-slate-200/20 bg-slate-900 px-4 py-2">Updated: {alert_updated}</span>
                         </div>
                         <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Concessions</p>
+                <div class="relative rounded-3xl border border-slate-200/20 bg-slate-900/90 p-5 shadow-2xl animate-floaty">
                             <p class="mt-2 text-3xl font-black text-white">{context['total_concessions']}</p>
                         </div>
-                        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                            <p class="text-xs uppercase tracking-[0.35em] text-sky-200">Stadium pulse</p>
                             <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Sections</p>
                             <p class="mt-2 text-3xl font-black text-white">{context['total_sections']}</p>
-                        </div>
-                        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                        <div class="rounded-2xl border border-slate-200/20 bg-slate-950/90 px-3 py-2 text-right">
+                            <p class="text-[11px] uppercase tracking-[0.3em] text-slate-300">Status</p>
                             <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Incidents</p>
                             <p class="mt-2 text-3xl font-black text-white">{len(context['recent_incidents'])}</p>
                         </div>
                     </div>
-                    <p class="mt-4 text-sm leading-6 text-slate-300">{alert_message}</p>
-                </div>
+                        <div class="rounded-2xl border border-slate-200/20 bg-slate-950/90 p-4">
+                            <p class="text-xs uppercase tracking-[0.25em] text-slate-300">Active gates</p>
             </div>
         </section>
-
-        <section class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+                        <div class="rounded-2xl border border-slate-200/20 bg-slate-950/90 p-4">
+                            <p class="text-xs uppercase tracking-[0.25em] text-slate-300">Concessions</p>
             <div class="space-y-6">
                 <div class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-glow backdrop-blur-xl">
-                    <div class="flex items-center justify-between">
-                        <div>
+                        <div class="rounded-2xl border border-slate-200/20 bg-slate-950/90 p-4">
+                            <p class="text-xs uppercase tracking-[0.25em] text-slate-300">Sections</p>
                             <p class="text-xs uppercase tracking-[0.35em] text-neon/80">Live stadium stats</p>
                             <h2 class="mt-2 text-2xl font-bold text-white">Gates, concessions, and crew state</h2>
-                        </div>
-                        <div class="text-right text-sm text-slate-300">
+                        <div class="rounded-2xl border border-slate-200/20 bg-slate-950/90 p-4">
+                            <p class="text-xs uppercase tracking-[0.25em] text-slate-300">Incidents</p>
                             <p>Accessible gates: <span class="font-semibold text-white">{len(context['active_gates'])}</span></p>
                             <p>Available crews: <span class="font-semibold text-white">{context['crew_status_counts'].get('available', 0)}</span></p>
                         </div>
-                    </div>
+                    <p class="mt-4 text-sm leading-6 text-slate-200">{alert_message}</p>
                     <div class="mt-6 grid gap-4 md:grid-cols-2">
                         <div class="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
                             <p class="text-sm font-semibold text-white">Gate map</p>
                             <div class="mt-3 space-y-3">
-                                {''.join(f'<div class="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 px-3 py-2"><span class="font-medium text-slate-100">{escape(gate.name)}</span><span class="text-xs text-neon">{"Accessible" if gate.accessible else "Standard"}</span></div>' for gate in context['active_gates'])}
+        <section class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]" aria-label="Live stadium operations panels">
                             </div>
-                        </div>
+                <section class="rounded-3xl border border-slate-200/20 bg-slate-950/90 p-6 shadow-glow backdrop-blur-xl" aria-labelledby="stats-title">
                         <div class="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
                             <p class="text-sm font-semibold text-white">Fastest concessions</p>
-                            <div class="mt-3 space-y-3">
-                                {''.join(f'<div class="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 px-3 py-2"><div><p class="font-medium text-slate-100">{escape(item["name"])}</p><p class="text-xs text-slate-400">{escape(item["notes"])}</p></div><span class="rounded-full bg-calm/10 px-3 py-1 text-sm font-semibold text-calm">{item["wait_minutes"]}m</span></div>' for item in context['top_concessions'])}
+                            <p class="text-xs uppercase tracking-[0.35em] text-emerald-200">Live stadium stats</p>
+                            <h2 id="stats-title" class="mt-2 text-2xl font-bold text-white">Gates, concessions, and crew state</h2>
                             </div>
-                        </div>
+                        <div class="text-right text-sm text-slate-200">
                     </div>
                     <div class="mt-4 grid gap-3 sm:grid-cols-4">
                         {''.join(f'<div class="rounded-2xl border border-white/10 bg-white/5 p-4"><p class="text-xs uppercase tracking-[0.25em] text-slate-400">{escape(status.replace("_", " "))}</p><p class="mt-2 text-2xl font-black text-white">{count}</p></div>' for status, count in context['crew_status_counts'].items())}
                     </div>
                 </div>
-
+                        <div class="rounded-2xl border border-slate-200/20 bg-slate-900/90 p-4">
                 <div class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-glow backdrop-blur-xl">
                     <div class="flex items-center justify-between">
-                        <div>
+                                {''.join(f'<div class="flex items-center justify-between rounded-xl border border-slate-200/20 bg-slate-950 px-3 py-2"><span class="font-medium text-slate-50">{escape(gate.name)}</span><span class="text-xs text-emerald-200">{"Accessible" if gate.accessible else "Standard"}</span></div>' for gate in context['active_gates'])}
                             <p class="text-xs uppercase tracking-[0.35em] text-calm/80">Fan Assistant</p>
                             <h2 class="mt-2 text-2xl font-bold text-white">Interactive chat tester</h2>
-                        </div>
+                        <div class="rounded-2xl border border-slate-200/20 bg-slate-900/90 p-4">
                         <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-300">/api/fan/chat</span>
                     </div>
-
+                                {''.join(f'<div class="flex items-center justify-between rounded-xl border border-slate-200/20 bg-slate-950 px-3 py-2"><div><p class="font-medium text-slate-50">{escape(item["name"])}</p><p class="text-xs text-slate-300">{escape(item["notes"])}</p></div><span class="rounded-full bg-sky-400/10 px-3 py-1 text-sm font-semibold text-sky-200">{item["wait_minutes"]}m</span></div>' for item in context['top_concessions'])}
                     <div class="mt-6 grid gap-4 md:grid-cols-2">
                         <label class="block">
                             <span class="text-sm text-slate-300">Ticket category</span>
                             <select id="fan-ticket" class="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-white outline-none ring-0 focus:border-neon/60">
-                                <option>general</option>
+                        {''.join(f'<div class="rounded-2xl border border-slate-200/20 bg-slate-950/90 p-4"><p class="text-xs uppercase tracking-[0.25em] text-slate-300">{escape(status.replace("_", " "))}</p><p class="mt-2 text-2xl font-black text-white">{count}</p></div>' for status, count in context['crew_status_counts'].items())}
                                 <option>premium</option>
-                                <option>vip</option>
+                </section>
                                 <option>accessible</option>
-                                <option>family</option>
+                <section class="rounded-3xl border border-slate-200/20 bg-slate-950/90 p-6 shadow-glow backdrop-blur-xl" aria-labelledby="fan-chat-title">
                             </select>
                         </label>
-                        <label class="block">
-                            <span class="text-sm text-slate-300">Preferred language</span>
+                            <p class="text-xs uppercase tracking-[0.35em] text-sky-200">Fan Assistant</p>
+                            <h2 id="fan-chat-title" class="mt-2 text-2xl font-bold text-white">Interactive chat tester</h2>
                             <input id="fan-language" value="en" class="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-white outline-none ring-0 focus:border-neon/60" />
-                        </label>
+                        <span class="rounded-full border border-slate-200/20 bg-slate-900 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-200">/api/fan/chat</span>
                         <label class="block">
                             <span class="text-sm text-slate-300">Current gate</span>
-                            <input id="fan-gate" value="gate-b" class="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-white outline-none ring-0 focus:border-neon/60" />
-                        </label>
-                        <label class="block">
-                            <span class="text-sm text-slate-300">Current location (x,y)</span>
-                            <input id="fan-location" value="8,13" class="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-white outline-none ring-0 focus:border-neon/60" />
-                        </label>
-                    </div>
-
-                    <label class="mt-4 block">
-                        <span class="text-sm text-slate-300">Question</span>
-                        <textarea id="fan-question" rows="4" class="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-white outline-none ring-0 focus:border-neon/60">Where is the fastest accessible route to food and my section?</textarea>
-                    </label>
-
-                    <div class="mt-4 flex flex-wrap gap-3">
-                        <button id="fan-send" class="rounded-2xl bg-neon px-5 py-3 font-semibold text-slate-950 transition hover:brightness-110">Send to Fan Assistant</button>
-                        <button id="fan-example" class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 font-semibold text-white transition hover:bg-white/10">Load route example</button>
-                    </div>
-
-                    <pre id="fan-response" class="mt-5 min-h-40 overflow-auto rounded-3xl border border-white/10 bg-slate-950/95 p-4 text-sm leading-6 text-slate-200">Fan Assistant responses will appear here.</pre>
-                </div>
-            </div>
-
-            <div class="space-y-6">
-                <div class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-glow backdrop-blur-xl">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs uppercase tracking-[0.35em] text-signal/80">Operations intake</p>
-                            <h2 class="mt-2 text-2xl font-bold text-white">Volunteer incident log</h2>
+                    <form id="fan-form" aria-label="Fan assistant test form" class="mt-6" onsubmit="return false;">
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <div class="block">
+                                <label for="fan-ticket" class="text-sm font-medium text-slate-100">Ticket category</label>
+                                <select id="fan-ticket" aria-label="Ticket category selection" class="mt-2 w-full rounded-2xl border border-slate-200/20 bg-slate-950 px-4 py-3 text-white outline-none ring-0 focus:border-sky-200">
+                                    <option>general</option>
+                                    <option>premium</option>
+                                    <option>vip</option>
+                                    <option>accessible</option>
+                                    <option>family</option>
+                                </select>
+                            </div>
+                            <div class="block">
+                                <label for="fan-language" class="text-sm font-medium text-slate-100">Preferred language</label>
+                                <input id="fan-language" aria-label="Preferred language input" value="en" class="mt-2 w-full rounded-2xl border border-slate-200/20 bg-slate-950 px-4 py-3 text-white outline-none ring-0 focus:border-sky-200" />
+                            </div>
+                            <div class="block">
+                                <label for="fan-gate" class="text-sm font-medium text-slate-100">Current gate</label>
+                                <input id="fan-gate" aria-label="Current gate input" value="gate-b" class="mt-2 w-full rounded-2xl border border-slate-200/20 bg-slate-950 px-4 py-3 text-white outline-none ring-0 focus:border-sky-200" />
+                            </div>
+                            <div class="block">
+                                <label for="fan-location" class="text-sm font-medium text-slate-100">Current location (x,y)</label>
+                                <input id="fan-location" aria-label="Current location input" value="8,13" class="mt-2 w-full rounded-2xl border border-slate-200/20 bg-slate-950 px-4 py-3 text-white outline-none ring-0 focus:border-sky-200" />
+                            </div>
                         </div>
-                        <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-300">/api/ops/incident</span>
-                    </div>
-
-                    <div class="mt-6 space-y-4">
-                        <label class="block">
-                            <span class="text-sm text-slate-300">Volunteer ID</span>
-                            <input id="ops-volunteer" value="vol-17" class="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-white outline-none ring-0 focus:border-signal/60" />
                         </label>
-                        <label class="block">
+                        <div class="mt-4 block">
+                            <label for="fan-question" class="text-sm font-medium text-slate-100">Question</label>
+                            <textarea id="fan-question" aria-label="Fan assistant question input" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200/20 bg-slate-950 px-4 py-3 text-white outline-none ring-0 focus:border-sky-200">Where is the fastest accessible route to food and my section?</textarea>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-3">
+                            <button id="fan-send" type="submit" aria-label="Send fan assistant request" class="rounded-2xl bg-emerald-400 px-5 py-3 font-semibold text-slate-950 transition hover:brightness-110">Send to Fan Assistant</button>
+                            <button id="fan-example" type="button" aria-label="Load fan assistant route example" class="rounded-2xl border border-slate-200/20 bg-slate-900 px-5 py-3 font-semibold text-white transition hover:bg-slate-800">Load route example</button>
+                        </div>
+
+                        <pre id="fan-response" aria-live="polite" aria-label="Fan assistant response output" class="mt-5 min-h-40 overflow-auto rounded-3xl border border-slate-200/20 bg-slate-950 p-4 text-sm leading-6 text-slate-100">Fan Assistant responses will appear here.</pre>
+                    </form>
+                </section>
                             <span class="text-sm text-slate-300">Location (x,y)</span>
                             <input id="ops-location" value="4,5" class="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-white outline-none ring-0 focus:border-signal/60" />
                         </label>
-                        <label class="block">
+                <section class="rounded-3xl border border-slate-200/20 bg-slate-950/90 p-6 shadow-glow backdrop-blur-xl" aria-labelledby="ops-title">
                             <span class="text-sm text-slate-300">Severity hint</span>
                             <select id="ops-severity" class="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-white outline-none ring-0 focus:border-signal/60">
-                                <option value="">auto</option>
-                                <option>low</option>
+                            <p class="text-xs uppercase tracking-[0.35em] text-amber-200">Operations intake</p>
+                            <h2 id="ops-title" class="mt-2 text-2xl font-bold text-white">Volunteer incident log</h2>
                                 <option>medium</option>
-                                <option>high</option>
+                        <span class="rounded-full border border-slate-200/20 bg-slate-900 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-200">/api/ops/incident</span>
                                 <option>critical</option>
                             </select>
-                        </label>
-                        <label class="block">
-                            <span class="text-sm text-slate-300">Incident report</span>
-                            <textarea id="ops-report" rows="5" class="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-white outline-none ring-0 focus:border-signal/60">Major spill near the south concourse creating a slip hazard and crowd slowdown.</textarea>
-                        </label>
-                    </div>
-
-                    <div class="mt-4 flex flex-wrap gap-3">
-                        <button id="ops-send" class="rounded-2xl bg-signal px-5 py-3 font-semibold text-slate-950 transition hover:brightness-110">Submit Incident</button>
-                        <button id="ops-example" class="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 font-semibold text-white transition hover:bg-white/10">Load crowd bottleneck example</button>
-                    </div>
-
-                    <pre id="ops-response" class="mt-5 min-h-40 overflow-auto rounded-3xl border border-white/10 bg-slate-950/95 p-4 text-sm leading-6 text-slate-200">Incident responses will appear here.</pre>
-                </div>
-
-                <div class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-glow backdrop-blur-xl">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs uppercase tracking-[0.35em] text-danger/80">Incident monitor</p>
-                            <h2 class="mt-2 text-2xl font-bold text-white">Incoming volunteer activity</h2>
+                    <form id="ops-form" aria-label="Volunteer incident submission form" class="mt-6" onsubmit="return false;">
+                        <div class="space-y-4">
+                            <div class="block">
+                                <label for="ops-volunteer" class="text-sm font-medium text-slate-100">Volunteer ID</label>
+                                <input id="ops-volunteer" aria-label="Volunteer ID input" value="vol-17" class="mt-2 w-full rounded-2xl border border-slate-200/20 bg-slate-950 px-4 py-3 text-white outline-none ring-0 focus:border-amber-200" />
+                            </div>
+                            <div class="block">
+                                <label for="ops-location" class="text-sm font-medium text-slate-100">Location (x,y)</label>
+                                <input id="ops-location" aria-label="Incident location input" value="4,5" class="mt-2 w-full rounded-2xl border border-slate-200/20 bg-slate-950 px-4 py-3 text-white outline-none ring-0 focus:border-amber-200" />
+                            </div>
+                            <div class="block">
+                                <label for="ops-severity" class="text-sm font-medium text-slate-100">Severity hint</label>
+                                <select id="ops-severity" aria-label="Severity hint selection" class="mt-2 w-full rounded-2xl border border-slate-200/20 bg-slate-950 px-4 py-3 text-white outline-none ring-0 focus:border-amber-200">
+                                    <option value="">auto</option>
+                                    <option>low</option>
+                                    <option>medium</option>
+                                    <option>high</option>
+                                    <option>critical</option>
+                                </select>
+                            </div>
+                            <div class="block">
+                                <label for="ops-report" class="text-sm font-medium text-slate-100">Incident report</label>
+                                <textarea id="ops-report" aria-label="Incident report input" rows="5" class="mt-2 w-full rounded-2xl border border-slate-200/20 bg-slate-950 px-4 py-3 text-white outline-none ring-0 focus:border-amber-200">Major spill near the south concourse creating a slip hazard and crowd slowdown.</textarea>
+                            </div>
                         </div>
-                        <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-300">Live log</span>
-                    </div>
-                    <div id="incident-log" class="mt-5 space-y-3">
-                        {''.join(f'<div class="rounded-2xl border border-white/10 bg-slate-950/80 p-4"><div class="flex items-center justify-between"><p class="font-semibold text-white">{escape(item.get("incident_type", "incident"))}</p><span class="text-xs text-slate-400">{escape(item.get("severity", "low"))}</span></div><p class="mt-2 text-sm text-slate-300">{escape(item.get("report", ""))}</p></div>' for item in recent_incidents_json and json.loads(recent_incidents_json)) if json.loads(recent_incidents_json) else '<div class="rounded-2xl border border-dashed border-white/10 bg-slate-950/60 p-4 text-sm text-slate-400">No incidents have been logged yet. Submit one from the operations panel.</div>'}
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
 
-    <script>
+                        <div class="mt-4 flex flex-wrap gap-3">
+                            <button id="ops-send" type="submit" aria-label="Submit volunteer incident" class="rounded-2xl bg-amber-300 px-5 py-3 font-semibold text-slate-950 transition hover:brightness-110">Submit Incident</button>
+                            <button id="ops-example" type="button" aria-label="Load crowd bottleneck incident example" class="rounded-2xl border border-slate-200/20 bg-slate-900 px-5 py-3 font-semibold text-white transition hover:bg-slate-800">Load crowd bottleneck example</button>
+                        </div>
+
+                        <pre id="ops-response" aria-live="polite" aria-label="Operations incident response output" class="mt-5 min-h-40 overflow-auto rounded-3xl border border-slate-200/20 bg-slate-950 p-4 text-sm leading-6 text-slate-100">Incident responses will appear here.</pre>
+                    </form>
+                </section>
         const activeGates = {active_gates_json};
-        const recentIncidents = {recent_incidents_json};
+                <section class="rounded-3xl border border-slate-200/20 bg-slate-950/90 p-6 shadow-glow backdrop-blur-xl" aria-labelledby="incident-log-title">
         const topConcessions = {top_concessions_json};
         const incidentLog = document.getElementById('incident-log');
-        const fanResponse = document.getElementById('fan-response');
-        const opsResponse = document.getElementById('ops-response');
+                            <p class="text-xs uppercase tracking-[0.35em] text-rose-200">Incident monitor</p>
+                            <h2 id="incident-log-title" class="mt-2 text-2xl font-bold text-white">Incoming volunteer activity</h2>
 
-        function escapeHtml(text) {{
+                        <span class="rounded-full border border-slate-200/20 bg-slate-900 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-200">Live log</span>
             return String(text)
-                .replaceAll('&', '&amp;')
-                .replaceAll('<', '&lt;')
-                .replaceAll('>', '&gt;')
-                .replaceAll('"', '&quot;')
+                    <div id="incident-log" role="log" aria-live="polite" aria-label="Incoming volunteer incident activity log" class="mt-5 space-y-3">
+                        {''.join(f'<div class="rounded-2xl border border-slate-200/20 bg-slate-900/90 p-4"><div class="flex items-center justify-between"><p class="font-semibold text-white">{escape(item.get("incident_type", "incident"))}</p><span class="text-xs text-slate-300">{escape(item.get("severity", "low"))}</span></div><p class="mt-2 text-sm text-slate-200">{escape(item.get("report", ""))}</p></div>' for item in recent_incidents_json and json.loads(recent_incidents_json)) if json.loads(recent_incidents_json) else '<div class="rounded-2xl border border-dashed border-slate-200/20 bg-slate-900/80 p-4 text-sm text-slate-200">No incidents have been logged yet. Submit one from the operations panel.</div>'}
+                    </div>
+                </section>
                 .replaceAll("'", '&#039;');
         }}
+        <footer class="mt-8 rounded-3xl border border-slate-200/20 bg-slate-950/90 px-6 py-4 text-sm text-slate-200 shadow-glow backdrop-blur-xl" role="contentinfo">
+            <p>Accessible dashboard controls mirror the same live stadium state used by the FastAPI JSON endpoints.</p>
+        </footer>
 
         function renderIncident(item) {{
             const card = document.createElement('div');
-            card.className = 'rounded-2xl border border-white/10 bg-slate-950/80 p-4';
+            card.className = 'rounded-2xl border border-slate-200/20 bg-slate-900/90 p-4';
             card.innerHTML = `
                 <div class="flex items-center justify-between gap-4">
                     <p class="font-semibold text-white">${{escapeHtml(item.incident_type || 'incident')}}</p>
-                    <span class="text-xs text-slate-400">${{escapeHtml(item.severity || 'low')}}</span>
+                    <span class="text-xs text-slate-300">${{escapeHtml(item.severity || 'low')}}</span>
                 </div>
-                <p class="mt-2 text-sm text-slate-300">${{escapeHtml(item.report || '')}}</p>
-                <div class="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-400 md:grid-cols-4">
+                <p class="mt-2 text-sm text-slate-200">${{escapeHtml(item.report || '')}}</p>
+                <div class="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-300 md:grid-cols-4">
                     <span>Dispatch: ${{item.dispatch_instructions ? item.dispatch_instructions.length : 0}}</span>
                     <span>Alert: ${{escapeHtml(item.alert_state ? item.alert_state.level : 'n/a')}}</span>
                     <span>ETA: ${{item.dispatch_instructions && item.dispatch_instructions[0] ? item.dispatch_instructions[0].eta_minutes + 'm' : 'n/a'}}</span>
