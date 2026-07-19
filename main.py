@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 from html import escape
+from functools import lru_cache
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
@@ -39,9 +40,46 @@ app.state.fan_agent = fan_agent
 app.state.ops_agent = ops_agent
 
 
+@lru_cache(maxsize=1)
+def build_static_dashboard_assets() -> dict[str, object]:
+    accessible_gates = [
+        {
+            "gate_id": gate.gate_id,
+            "name": gate.name,
+            "x": gate.coordinate.x,
+            "y": gate.coordinate.y,
+            "accessible": gate.accessible,
+            "ticket_categories": list(gate.ticket_categories),
+            "notes": gate.notes,
+        }
+        for gate in STADIUM_DB.gates.values()
+        if gate.accessible
+    ]
+
+    concessions = [
+        {
+            "stall_id": concession.stall_id,
+            "name": concession.name,
+            "coordinate": {"x": concession.coordinate.x, "y": concession.coordinate.y},
+            "menu_tags": list(concession.menu_tags),
+            "accessible": concession.accessible,
+            "notes": concession.notes,
+        }
+        for concession in STADIUM_DB.concessions.values()
+    ]
+
+    return {
+        "accessible_gates": accessible_gates,
+        "total_gates": len(STADIUM_DB.gates),
+        "total_sections": len(STADIUM_DB.sections),
+        "total_concessions": len(STADIUM_DB.concessions),
+        "concessions": concessions,
+        "model": "gemini-1.5-flash" if app.state.fan_agent.client else "deterministic-fallback",
+    }
+
+
 def build_dashboard_context() -> dict[str, object]:
-    active_gates = [gate for gate in STADIUM_DB.gates.values()
-                    if gate.accessible]
+    static_assets = build_static_dashboard_assets()
     alert_state = STADIUM_DB.alert_state
     crew_status_counts: dict[str, int] = {
         "available": 0, "en_route": 0, "cleaning": 0, "paused": 0}
@@ -49,30 +87,32 @@ def build_dashboard_context() -> dict[str, object]:
         crew_status_counts[crew.status] = crew_status_counts.get(
             crew.status, 0) + 1
 
-    recent_incidents = list(
-        reversed(STADIUM_DB.alert_state.active_incidents[-8:]))
+    recent_incidents = list(reversed(alert_state.active_incidents[-8:]))
     concession_waits = [
         {
-            "stall_id": concession.stall_id,
-            "name": concession.name,
-            "wait_minutes": STADIUM_DB.concession_wait_minutes(concession, concession.coordinate),
-            "notes": concession.notes,
+            "stall_id": concession["stall_id"],
+            "name": concession["name"],
+            "wait_minutes": STADIUM_DB.concession_wait_minutes(
+                STADIUM_DB.concessions[concession["stall_id"]],
+                STADIUM_DB.concessions[concession["stall_id"]].coordinate,
+            ),
+            "notes": concession["notes"],
         }
-        for concession in STADIUM_DB.concessions.values()
+        for concession in static_assets["concessions"]
     ]
     concession_waits.sort(key=lambda item: (
         item["wait_minutes"], item["name"]))
 
     return {
-        "active_gates": active_gates,
-        "total_gates": len(STADIUM_DB.gates),
-        "total_sections": len(STADIUM_DB.sections),
-        "total_concessions": len(STADIUM_DB.concessions),
+        "active_gates": static_assets["accessible_gates"],
+        "total_gates": static_assets["total_gates"],
+        "total_sections": static_assets["total_sections"],
+        "total_concessions": static_assets["total_concessions"],
         "alert_state": alert_state,
         "crew_status_counts": crew_status_counts,
         "recent_incidents": recent_incidents,
         "top_concessions": concession_waits[:4],
-        "model": "gemini-1.5-flash" if app.state.fan_agent.client else "deterministic-fallback",
+        "model": static_assets["model"],
     }
 
 
