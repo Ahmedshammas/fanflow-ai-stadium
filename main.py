@@ -120,13 +120,13 @@ def render_dashboard() -> str:
     context = build_dashboard_context()
     active_gates_json = json.dumps([
         {
-            "gate_id": gate.gate_id,
-            "name": gate.name,
-            "x": gate.coordinate.x,
-            "y": gate.coordinate.y,
-            "accessible": gate.accessible,
-            "ticket_categories": list(gate.ticket_categories),
-            "notes": gate.notes,
+            "gate_id": gate["gate_id"],
+            "name": gate["name"],
+            "x": gate["x"],
+            "y": gate["y"],
+            "accessible": gate["accessible"],
+            "ticket_categories": gate["ticket_categories"],
+            "notes": gate["notes"],
         }
         for gate in context["active_gates"]
     ])
@@ -280,7 +280,7 @@ def render_dashboard() -> str:
                         <div class="rounded-2xl border border-slate-200/20 bg-slate-900/90 p-4">
                             <p class="text-sm font-semibold text-white">Gate map</p>
                             <div class="mt-3 space-y-3">
-                                {''.join(f'<div class="flex items-center justify-between rounded-xl border border-slate-200/20 bg-slate-950 px-3 py-2"><span class="font-medium text-slate-50">{escape(gate.name)}</span><span class="text-xs text-emerald-200">{"Accessible" if gate.accessible else "Standard"}</span></div>' for gate in context['active_gates'])}
+                                {''.join(f'<div class="flex items-center justify-between rounded-xl border border-slate-200/20 bg-slate-950 px-3 py-2"><span class="font-medium text-slate-50">{escape(gate["name"])}</span><span class="text-xs text-emerald-200">{"Accessible" if gate["accessible"] else "Standard"}</span></div>' for gate in context['active_gates'])}
                             </div>
                         </div>
                         <div class="rounded-2xl border border-slate-200/20 bg-slate-900/90 p-4">
